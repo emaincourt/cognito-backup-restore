@@ -106,7 +106,6 @@ export const restoreUsers = async (cognito: CognitoISP, UserPoolId: string, file
             let specificPwdExistsForUser = false;
             if (pwdModule !== null){
                 try {
-                    params.MessageAction = 'SUPPRESS';
                     params.TemporaryPassword = pwdModule.getPwdForUsername(user.Username);
                     specificPwdExistsForUser = true;
                 } catch (e) {
@@ -114,7 +113,6 @@ export const restoreUsers = async (cognito: CognitoISP, UserPoolId: string, file
                 }
             }
             if (!specificPwdExistsForUser && password) {
-                params.MessageAction = 'SUPPRESS';
                 params.TemporaryPassword = password;
             }
             const wrapped = limiter.wrap(async () => cognito.adminCreateUser(params).promise());
